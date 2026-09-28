@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>حجوزاتي</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;
+    background:#ffffff;
+    color:#182235;
+    direction:rtl;
+}
+
+button{
+    font-family:inherit;
+    border:0;
+    outline:0;
+    cursor:pointer;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.app{
+    width:100%;
+    min-height:100vh;
+    padding-bottom:78px;
+    background:#fff;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    text-align:center;
+    padding:28px 20px 12px;
+}
+
+.header h1{
+    font-size:23px;
+    font-weight:700;
+    color:#172033;
+}
+
+/* =========================
+   TABS
+========================= */
+
+.tabs{
+    width:calc(100% - 34px);
+    max-width:650px;
+    margin:10px auto 20px;
+
+    display:flex;
+
+    padding:4px;
+
+    background:#eef1f5;
+
+    border-radius:25px;
+}
+
+.tab{
+    flex:1;
+
+    height:42px;
+
+    border-radius:22px;
+
+    background:transparent;
+
+    color:#8b93a1;
+
+    font-size:14px;
+
+    font-weight:600;
+}
+
+.tab.active{
+    background:#1769b0;
+    color:#fff;
+}
+
+/* =========================
+   BOOKINGS
+========================= */
+
+.bookings{
+    width:calc(100% - 30px);
+    max-width:650px;
+    margin:auto;
+}
+
+.booking{
+    background:#fff;
+
+    border:1px solid #edf0f4;
+
+    border-radius:15px;
+
+    padding:16px;
+
+    margin-bottom:14px;
+
+    box-shadow:0 3px 12px rgba(20,35,60,.06);
+}
+
+.booking-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+
+    gap:10px;
+}
+
+.booking-title{
+    display:flex;
+    align-items:flex-start;
+
+    gap:10px;
+}
+
+.booking-icon{
+    width:39px;
+    height:39px;
+
+    border-radius:9px;
+
+    background:#edf5fc;
+
+    color:#1769b0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:18px;
+
+    flex-shrink:0;
+}
+
+.booking-name{
+    font-size:15px;
+    font-weight:700;
+
+    margin-bottom:5px;
+
+    color:#283247;
+}
+
+.booking-number{
+    font-size:12px;
+    color:#9299a6;
+}
+
+.status{
+    padding:5px 10px;
+
+    border-radius:15px;
+
+    font-size:11px;
+
+    font-weight:600;
+
+    white-space:nowrap;
+}
+
+.status.active{
+    background:#e8f7e9;
+    color:#35a34a;
+}
+
+.status.wait{
+    background:#eaf3fb;
+    color:#1769b0;
+}
+
+.status.old{
+    background:#f0f1f3;
+    color:#858b95;
+}
+
+/* =========================
+   DETAILS
+========================= */
+
+.details{
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:5px;
+
+    border-top:1px solid #f0f1f4;
+
+    margin-top:15px;
+
+    padding-top:14px;
+}
+
+.detail{
+    text-align:center;
+}
+
+.detail-label{
+    font-size:10px;
+
+    color:#969daa;
+
+    margin-bottom:5px;
+}
+
+.detail-value{
+    font-size:12px;
+
+    font-weight:600;
+
+    color:#30394a;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.actions{
+    display:flex;
+
+    gap:9px;
+
+    margin-top:15px;
+}
+
+.qr-btn,
+.manage-btn{
+
+    flex:1;
+
+    height:42px;
+
+    border-radius:9px;
+
+    font-size:13px;
+
+    font-weight:600;
+}
+
+.qr-btn{
+    background:#1769b0;
+
+    color:#fff;
+}
+
+.qr-btn:active{
+    background:#125993;
+}
+
+.manage-btn{
+    background:#edf4fa;
+
+    color:#1769b0;
+}
+
+/* =========================
+   MAIN BOTTOM NAV
+========================= */
+
+.bottom-nav{
+
+    position:fixed;
+
+    bottom:0;
+
+    right:0;
+
+    left:0;
+
+    height:74px;
+
+    background:#fff;
+
+    border-top:1px solid #e9edf2;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-around;
+
+    z-index:100;
+}
+
+.nav-item{
+
+    flex:1;
+
+    height:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:5px;
+
+    color:#9ba2ae;
+
+    font-size:10px;
+}
+
+.nav-icon{
+    font-size:20px;
+
+    line-height:1;
+}
+
+.nav-item.active{
+    color:#1769b0;
+}
+
+/* =========================
+   QR SCREEN
+========================= */
+
+.qr-screen{
+
+    position:fixed;
+
+    inset:0;
+
+    width:100%;
+
+    height:100%;
+
+    background:#fff;
+
+    z-index:500;
+
+    display:none;
+
+    flex-direction:column;
+
+    padding-bottom:74px;
+}
+
+.qr-screen.show{
+    display:flex;
+}
+
+/* =========================
+   QR HEADER
+========================= */
+
+.qr-header{
+
+    width:100%;
+
+    height:70px;
+
+    min-height:70px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    position:relative;
+
+    border-bottom:1px solid #edf0f3;
+}
+
+.qr-header h2{
+
+    font-size:20px;
+
+    font-weight:700;
+
+    color:#172033;
+}
+
+.back{
+
+    position:absolute;
+
+    right:18px;
+
+    top:15px;
+
+    width:40px;
+
+    height:40px;
+
+    border-radius:50%;
+
+    background:#f1f3f6;
+
+    color:#273247;
+
+    font-size:25px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+/* =========================
+   QR CONTENT
+========================= */
+
+.qr-content{
+
+    width:100%;
+
+    max-width:500px;
+
+    margin:0 auto;
+
+    padding:25px 20px 35px;
+
+    text-align:center;
+
+    overflow-y:auto;
+
+    flex:1;
+}
+
+.qr-content h3{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#273247;
+
+    margin-bottom:6px;
+}
+
+.sub{
+
+    font-size:13px;
+
+    color:#969daa;
+
+    margin-bottom:25px;
+}
+
+/* =========================
+   QR CODE
+========================= */
+
+.qr-box{
+
+    width:235px;
+
+    height:235px;
+
+    margin:0 auto 25px;
+
+    position:relative;
+
+    background:#fff;
+}
+
+/* QR corners */
+
+.finder{
+
+    position:absolute;
+
+    width:57px;
+
+    height:57px;
+
+    border:8px solid #111;
+
+    background:#fff;
+}
+
+.finder::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:21px;
+
+    height:21px;
+
+    background:#111;
+
+    top:10px;
+
+    left:10px;
+}
+
+.finder.one{
+
+    top:0;
+
+    right:0;
+}
+
+.finder.two{
+
+    top:0;
+
+    left:0;
+}
+
+.finder.three{
+
+    bottom:0;
+
+    left:0;
+}
+
+/* QR dots */
+
+.qr-small{
+
+    position:absolute;
+
+    width:9px;
+
+    height:9px;
+
+    background:#111;
+}
+
+.s1{right:80px;top:10px}
+.s2{right:64px;top:27px}
+.s3{right:94px;top:45px}
+.s4{right:72px;top:59px}
+.s5{right:43px;top:70px}
+.s6{right:20px;top:86px}
+.s7{right:86px;top:88px}
+.s8{right:65px;top:105px}
+.s9{right:44px;top:102px}
+.s10{right:22px;top:119px}
+.s11{right:89px;top:130px}
+.s12{right:69px;top:146px}
+.s13{right:47px;top:139px}
+.s14{right:99px;bottom:44px}
+.s15{right:77px;bottom:29px}
+.s16{right:55px;bottom:51px}
+.s17{right:20px;bottom:25px}
+.s18{right:37px;bottom:8px}
+
+.s19{left:73px;top:75px}
+.s20{left:53px;top:92px}
+.s21{left:32px;top:76px}
+.s22{left:77px;top:114px}
+.s23{left:55px;top:132px}
+.s24{left:33px;top:118px}
+.s25{left:88px;bottom:68px}
+.s26{left:67px;bottom:50px}
+.s27{left:46px;bottom:73px}
+
+/* =========================
+   QR NOTE
+========================= */
+
+.qr-note{
+
+    background:#f7f9fc;
+
+    border-radius:12px;
+
+    padding:13px 15px;
+
+    color:#7d8592;
+
+    font-size:12px;
+
+    line-height:1.8;
+
+    margin-bottom:20px;
+}
+
+.pin{
+
+    display:inline-block;
+
+    background:#edf4fa;
+
+    color:#1769b0;
+
+    padding:10px 23px;
+
+    border-radius:9px;
+
+    font-size:19px;
+
+    font-weight:700;
+
+    letter-spacing:2px;
+}
+
+/* =========================
+   QR BOTTOM NAV
+========================= */
+
+.qr-bottom-nav{
+
+    position:absolute;
+
+    bottom:0;
+
+    right:0;
+
+    left:0;
+
+    height:74px;
+
+    background:#fff;
+
+    border-top:1px solid #e9edf2;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-around;
+
+    z-index:600;
+}
+
+.qr-nav-item{
+
+    flex:1;
+
+    height:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:5px;
+
+    color:#9ba2ae;
+
+    font-size:10px;
+}
+
+.qr-nav-icon{
+
+    font-size:20px;
+
+    line-height:1;
+}
+
+.qr-nav-item.active{
+    color:#1769b0;
+}
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media(min-width:700px){
+
+    .bottom-nav{
+
+        max-width:650px;
+
+        left:50%;
+
+        right:auto;
+
+        transform:translateX(-50%);
+
+        border:1px solid #e9edf2;
+
+        border-bottom:0;
+
+        border-radius:18px 18px 0 0;
+    }
+
+    .qr-bottom-nav{
+
+        max-width:650px;
+
+        left:50%;
+
+        right:auto;
+
+        transform:translateX(-50%);
+
+        border:1px solid #e9edf2;
+
+        border-bottom:0;
+
+        border-radius:18px 18px 0 0;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<!-- =========================
+     الصفحة الرئيسية
+========================= -->
+
+<div class="app">
+
+    <div class="header">
+        <h1>حجوزاتي</h1>
+    </div>
+
+
+    <div class="tabs">
+
+        <button class="tab active" id="currentTab">
+            الحالية
+        </button>
+
+        <button class="tab" id="previousTab">
+            السابقة
+        </button>
+
+    </div>
+
+
+    <!-- الحجوزات الحالية -->
+
+    <main class="bookings" id="currentBookings">
+
+
+        <!-- حجز 1 -->
+
+        <div class="booking">
+
+            <div class="booking-top">
+
+                <div class="booking-title">
+
+                    <div class="booking-icon">
+                        ▣
+                    </div>
+
+                    <div>
+
+                        <div class="booking-name">
+                            المركز الرياضي العام
+                        </div>
+
+                        <div class="booking-number">
+                            الحجز 12
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <span class="status active">
+                    قيد الاستخدام
+                </span>
+
+            </div>
+
+
+            <div class="details">
+
+                <div class="detail">
+                    <div class="detail-label">التاريخ</div>
+                    <div class="detail-value">25 / 08 / 2025</div>
+                </div>
+
+                <div class="detail">
+                    <div class="detail-label">البداية</div>
+                    <div class="detail-value">10:00 ص</div>
+                </div>
+
+                <div class="detail">
+                    <div class="detail-label">النهاية</div>
+                    <div class="detail-value">12:00 م</div>
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button class="qr-btn">
+                    رمز الدخول
+                </button>
+
+                <button class="manage-btn">
+                    إدارة الحجز
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- حجز 2 -->
+
+        <div class="booking">
+
+            <div class="booking-top">
+
+                <div class="booking-title">
+
+                    <div class="booking-icon">
+                        ▣
+                    </div>
+
+                    <div>
+
+                        <div class="booking-name">
+                            الصالة الرياضية
+                        </div>
+
+                        <div class="booking-number">
+                            الحجز 18
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <span class="status wait">
+                    مؤكد
+                </span>
+
+            </div>
+
+
+            <div class="details">
+
+                <div class="detail">
+                    <div class="detail-label">التاريخ</div>
+                    <div class="detail-value">26 / 08 / 2025</div>
+                </div>
+
+                <div class="detail">
+                    <div class="detail-label">البداية</div>
+                    <div class="detail-value">3:00 م</div>
+                </div>
+
+                <div class="detail">
+                    <div class="detail-label">النهاية</div>
+                    <div class="detail-value">5:00 م</div>
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button class="qr-btn">
+                    رمز الدخول
+                </button>
+
+                <button class="manage-btn">
+                    إدارة الحجز
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- حجز 3 -->
+
+        <div class="booking">
+
+            <div class="booking-top">
+
+                <div class="booking-title">
+
+                    <div class="booking-icon">
+                        ▣
+                    </div>
+
+                    <div>
+
+                        <div class="booking-name">
+                            ملعب كرة القدم
+                        </div>
+
+                        <div class="booking-number">
+                            الحجز 24
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <span class="status wait">
+                    مؤكد
+                </span>
+
+            </div>
+
+
+            <div class="details">
+
+                <div class="detail">
+                    <div class="detail-label">التاريخ</div>
+                    <div class="detail-value">28 / 08 / 2025</div>
+                </div>
+
+                <div class="detail">
+                    <div class="detail-label">البداية</div>
+                    <div class="detail-value">6:00 م</div>
+                </div>
+
+                <div class="detail">
+                    <div class="detail-label">النهاية</div>
+                    <div class="detail-value">8:00 م</div>
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button class="qr-btn">
+                    رمز الدخول
+                </button>
+
+                <button class="manage-btn">
+                    إدارة الحجز
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- حجز 4 -->
+
+        <div class="booking">
+
+            <div class="booking-top">
+
+                <div class="booking-title">
+
+                    <div class="booking-icon">
+                        ▣
+                    </div>
+
+                    <div>
+
+                        <div class="booking-name">
+                            المسبح الأولمبي
+                        </div>
+
+                        <div class="booking-number">
+                            الحجز 31
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <span class="status wait">
+                    مؤكد
+                </span>
+
+            </div>
+
+
+            <div class="details">
+
+                <div class="detail">
+                    <div class="detail-label">التاريخ</div>
+                    <div class="detail-value">30 / 08 / 2025</div>
+                </div>
+
+                <div class="detail">
+                    <div class="detail-label">البداية</div>
+                    <div class="detail-value">9:00 ص</div>
+                </div>
+
+                <div class="detail">
+                    <div class="detail-label">النهاية</div>
+                    <div class="detail-value">11:00 ص</div>
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button class="qr-btn">
+                    رمز الدخول
+                </button>
+
+                <button class="manage-btn">
+                    إدارة الحجز
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- حجز 5 -->
+
+        <div class="booking">
+
+            <div class="booking-top">
+
+                <div class="booking-title">
+
+                    <div class="booking-icon">
+                        ▣
+                    </div>
+
+                    <div>
+
+                        <div class="booking-name">
+                            قاعة الأنشطة
+                        </div>
+
+                        <div class="booking-number">
+                            الحجز 36
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <span class="status active">
+                    مؤكد
+                </span>
+
+            </div>
+
+
+            <div class="details">
+
+                <div class="detail">
+                    <div class="detail-label">التاريخ</div>
+                    <div class="detail-value">02 / 09 / 2025</div>
+                </div>
+
+                <div class="detail">
+                    <div class="detail-label">البداية</div>
+                    <div class="detail-value">1:00 م</div>
+                </div>
+
+                <div class="detail">
+                    <div class="detail-label">النهاية</div>
+                    <div class="detail-value">3:00 م</div>
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button class="qr-btn">
+                    رمز الدخول
+                </button>
+
+                <button class="manage-btn">
+                    إدارة الحجز
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- الحجوزات السابقة -->
+
+    <main class="bookings" id="previousBookings" style="display:none;">
+
+
+        <div class="booking">
+
+            <div class="booking-top">
+
+                <div class="booking-title">
+
+                    <div class="booking-icon">
+                        ▣
+                    </div>
+
+                    <div>
+
+                        <div class="booking-name">
+                            الملعب الداخلي
+                        </div>
+
+                        <div class="booking-number">
+                            الحجز 07
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <span class="status old">
+                    منتهي
+                </span>
+
+            </div>
+
+
+            <div class="details">
+
+                <div class="detail">
+                    <div class="detail-label">التاريخ</div>
+                    <div class="detail-value">20 / 08 / 2025</div>
+                </div>
+
+                <div class="detail">
+                    <div class="detail-label">البداية</div>
+                    <div class="detail-value">4:00 م</div>
+                </div>
+
+                <div class="detail">
+                    <div class="detail-label">النهاية</div>
+                    <div class="detail-value">6:00 م</div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="booking">
+
+            <div class="booking-top">
+
+                <div class="booking-title">
+
+                    <div class="booking-icon">
+                        ▣
+                    </div>
+
+                    <div>
+
+                        <div class="booking-name">
+                            الصالة الرياضية
+                        </div>
+
+                        <div class="booking-number">
+                            الحجز 04
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <span class="status old">
+                    منتهي
+                </span>
+
+            </div>
+
+
+            <div class="details">
+
+                <div class="detail">
+                    <div class="detail-label">التاريخ</div>
+                    <div class="detail-value">18 / 08 / 2025</div>
+                </div>
+
+                <div class="detail">
+                    <div class="detail-label">البداية</div>
+                    <div class="detail-value">10:00 ص</div>
+                </div>
+
+                <div class="detail">
+                    <div class="detail-label">النهاية</div>
+                    <div class="detail-value">12:00 م</div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================
+     NAV الرئيسية
+========================= -->
+
+<nav class="bottom-nav">
+
+    <div class="nav-item active">
+        <div class="nav-icon">⌂</div>
+        <span>الرئيسية</span>
+    </div>
+
+    <div class="nav-item">
+        <div class="nav-icon">▣</div>
+        <span>الحجوزات</span>
+    </div>
+
+    <div class="nav-item">
+        <div class="nav-icon">♧</div>
+        <span>التنبيهات</span>
+    </div>
+
+    <div class="nav-item">
+        <div class="nav-icon">♙</div>
+        <span>الملف الشخصي</span>
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     شاشة رمز الدخول
+========================= -->
+
+<div class="qr-screen" id="qrScreen">
+
+    <div class="qr-header">
+
+        <button class="back" id="closeQr">
+            ‹
+        </button>
+
+        <h2>رمز الدخول</h2>
+
+    </div>
+
+
+    <div class="qr-content">
+
+        <h3>رمز الدخول</h3>
+
+        <div class="sub">
+            امسح الرمز لفتح الحجز
+        </div>
+
+
+        <div class="qr-box">
+
+            <div class="finder one"></div>
+            <div class="finder two"></div>
+            <div class="finder three"></div>
+
+            <span class="qr-small s1"></span>
+            <span class="qr-small s2"></span>
+            <span class="qr-small s3"></span>
+            <span class="qr-small s4"></span>
+            <span class="qr-small s5"></span>
+            <span class="qr-small s6"></span>
+            <span class="qr-small s7"></span>
+            <span class="qr-small s8"></span>
+            <span class="qr-small s9"></span>
+            <span class="qr-small s10"></span>
+            <span class="qr-small s11"></span>
+            <span class="qr-small s12"></span>
+            <span class="qr-small s13"></span>
+            <span class="qr-small s14"></span>
+            <span class="qr-small s15"></span>
+            <span class="qr-small s16"></span>
+            <span class="qr-small s17"></span>
+            <span class="qr-small s18"></span>
+            <span class="qr-small s19"></span>
+            <span class="qr-small s20"></span>
+            <span class="qr-small s21"></span>
+            <span class="qr-small s22"></span>
+            <span class="qr-small s23"></span>
+            <span class="qr-small s24"></span>
+            <span class="qr-small s25"></span>
+            <span class="qr-small s26"></span>
+            <span class="qr-small s27"></span>
+
+        </div>
+
+
+        <div class="qr-note">
+            في حال عدم توفر الإنترنت أو تعذر قراءة الرمز،
+            استخدم رمز الدخول الاحتياطي.
+        </div>
+
+
+        <div class="pin">
+            PIN: 4827
+        </div>
+
+    </div>
+
+
+    <!-- الشريط السفلي داخل شاشة الرمز -->
+
+    <nav class="qr-bottom-nav">
+
+        <div class="qr-nav-item active">
+            <div class="qr-nav-icon">⌂</div>
+            <span>الرئيسية</span>
+        </div>
+
+        <div class="qr-nav-item">
+            <div class="qr-nav-icon">▣</div>
+            <span>الحجوزات</span>
+        </div>
+
+        <div class="qr-nav-item">
+            <div class="qr-nav-icon">♧</div>
+            <span>التنبيهات</span>
+        </div>
+
+        <div class="qr-nav-item">
+            <div class="qr-nav-icon">♙</div>
+            <span>الملف الشخصي</span>
+        </div>
+
+    </nav>
+
+</div>
+
+
+<script>
+
+/* =========================
+   عناصر الصفحة
+========================= */
+
+const qrScreen = document.getElementById("qrScreen");
+
+const qrButtons = document.querySelectorAll(".qr-btn");
+
+const closeQrButton = document.getElementById("closeQr");
+
+const currentTab = document.getElementById("currentTab");
+
+const previousTab = document.getElementById("previousTab");
+
+const currentBookings = document.getElementById("currentBookings");
+
+const previousBookings = document.getElementById("previousBookings");
+
+
+/* =========================
+   فتح رمز الدخول
+========================= */
+
+qrButtons.forEach(function(button){
+
+    button.addEventListener("click", function(){
+
+        qrScreen.style.display = "flex";
+
+        document.body.style.overflow = "hidden";
+
+    });
+
+});
+
+
+/* =========================
+   إغلاق رمز الدخول
+========================= */
+
+closeQrButton.addEventListener("click", function(){
+
+    qrScreen.style.display = "none";
+
+    document.body.style.overflow = "";
+
+});
+
+
+/* =========================
+   الحالية
+========================= */
+
+currentTab.addEventListener("click", function(){
+
+    currentTab.classList.add("active");
+
+    previousTab.classList.remove("active");
+
+    currentBookings.style.display = "block";
+
+    previousBookings.style.display = "none";
+
+});
+
+
+/* =========================
+   السابقة
+========================= */
+
+previousTab.addEventListener("click", function(){
+
+    previousTab.classList.add("active");
+
+    currentTab.classList.remove("active");
+
+    currentBookings.style.display = "none";
+
+    previousBookings.style.display = "block";
+
+});
+
+</script>
+
+</body>
+</html>
